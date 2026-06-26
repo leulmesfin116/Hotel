@@ -7,6 +7,14 @@ import hotel4 from '../assets/hotel4.png';
 function Home() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const scrollAmount = 350; // Scroll by roughly one image width
@@ -20,20 +28,36 @@ function Home() {
   return (
     <>
       <header className="m-3">
-        <h1 className="text-4xl font-serif text-amber-500 ">Hotel Time </h1>
+        <h1 className="text-4xl font-serif text-amber-800 ">Hotel Time </h1>
       </header>
       <hr></hr>
       <div>
-        <div className="flex flex-col m-4">
-          <h2 className="font-bold text-xl font-serif">Hotel time ,Dessie</h2>
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=4JVV%2BP5Q%2C%201%2C%20Dese"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-black-600 hover:text-blue-800 transition-colors"
-          >
-            4JVV+P5Q, 1, Dese
-          </a>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center m-4 gap-4">
+          <div className="flex flex-col">
+            <h2 className="font-bold text-xl font-serif">Hotel time ,Dessie</h2>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=4JVV%2BP5Q%2C%201%2C%20Dese"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-black-600 hover:text-blue-800 transition-colors"
+            >
+              4JVV+P5Q, 1, Dese
+            </a>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto bg-white border border-gray-200 p-2 rounded-lg shadow-sm mt-4 md:mt-0">
+            <div className="flex justify-center items-center gap-2 px-3 py-2 sm:py-1 border-b sm:border-b-0 sm:border-r border-gray-200">
+              <span className="text-gray-700 font-medium">{formatDate(today)}</span>
+              <span className="text-gray-400">-</span>
+              <span className="text-gray-700 font-medium">{formatDate(tomorrow)}</span>
+            </div>
+            <div className="flex justify-center px-3 py-2 sm:py-1">
+              <span className="text-gray-700 font-medium">1 room, 1 guest</span>
+            </div>
+            <button className="w-full sm:w-auto bg-amber-800 text-white px-6 py-2 rounded-md font-semibold hover:bg-amber-900 transition-colors mt-2 sm:mt-0">
+              Book a room
+            </button>
+          </div>
         </div>
         <hr></hr>
         {/* secod box */}
@@ -66,22 +90,22 @@ function Home() {
             <img
               src={hotel1}
               alt="Hotel View 1"
-              className="h-96 w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
+              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
             />
             <img
               src={hotel2}
               alt="Hotel View 2"
-              className="h-96 w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
+              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
             />
             <img
               src={hotel3}
               alt="Hotel View 3"
-              className="h-96 w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
+              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
             />
             <img
               src={hotel4}
               alt="Hotel View 4"
-              className="h-96 w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
+              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
             />
           </div>
 
@@ -108,7 +132,7 @@ function Home() {
         </div>
         {/* second */}
         <div className="flex flex-row ">
-          <div className="m-4 flex flex-col sm:flex-row items-center gap-4 bg-white border border-gray-200 p-5 rounded-xl shadow-sm max-w-fit hover:shadow-md transition-shadow">
+          <div className="m-4 flex flex-col sm:flex-row items-center gap-4 bg-white border border-gray-200 p-5 rounded-xl shadow-sm w-full sm:max-w-fit hover:shadow-md transition-shadow">
             <img
               src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg"
               alt="Tripadvisor"
@@ -143,14 +167,14 @@ function Home() {
             </div>
             <div>
               <a
-                className=" font-bold underline text-black-600 hover:text-blue-800 transition-colors"
+                className="font-bold underline text-black-600 hover:text-blue-800 transition-colors"
                 href="https://www.tripadvisor.com/Hotel_Review-g2194934-d7248694-Reviews-Hotel_Time_Spa-Dessie_Amhara_Region.html"
               >
                 read reviews
               </a>
             </div>
-            <div>
-              <a className="m-4 px-4" href="tel:+251914313458">
+            <div className="w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-gray-200 pt-3 sm:pt-0 sm:pl-4 mt-2 sm:mt-0 text-center sm:text-left">
+              <a className="font-semibold text-amber-800" href="tel:+251914313458">
                 Call Us: 091 431 3458
               </a>
             </div>
@@ -159,7 +183,7 @@ function Home() {
         {/* third */}
         <div className="m-4 flex flex-col gap-4 bg-white">
           <div>
-            <h1 className=" text-center text-3xl font-serif text-amber-500">
+            <h1 className=" text-center text-3xl font-serif text-amber-800">
               Our amenities
             </h1>
           </div>
@@ -172,7 +196,7 @@ function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-7 h-7 text-amber-500 shrink-0"
+                className="w-7 h-7 text-amber-800 shrink-0"
               >
                 <path
                   strokeLinecap="round"
@@ -193,7 +217,7 @@ function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-7 h-7 text-amber-500 shrink-0"
+                className="w-7 h-7 text-amber-800 shrink-0"
               >
                 <path
                   strokeLinecap="round"
@@ -214,7 +238,7 @@ function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-7 h-7 text-amber-500 shrink-0"
+                className="w-7 h-7 text-amber-800 shrink-0"
               >
                 <path
                   strokeLinecap="round"
@@ -235,7 +259,7 @@ function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-7 h-7 text-amber-500 shrink-0"
+                className="w-7 h-7 text-amber-800 shrink-0"
               >
                 <path
                   strokeLinecap="round"
@@ -256,7 +280,7 @@ function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-7 h-7 text-amber-500 shrink-0"
+                className="w-7 h-7 text-amber-800 shrink-0"
               >
                 <path
                   strokeLinecap="round"
