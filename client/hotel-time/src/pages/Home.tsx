@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import hotel1 from '../assets/hotel1.png';
 import hotel2 from '../assets/hotel2.png';
@@ -6,6 +6,7 @@ import hotel3 from '../assets/hotel3.png';
 import hotel4 from '../assets/hotel4.png';
 
 function Home() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const today = new Date();
@@ -42,12 +43,28 @@ function Home() {
             <Link to="/info" className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1">HOTEL INFO</Link>
             <Link to="/contact" className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1">CONTACT</Link>
           </nav>
-          <button className="md:hidden text-amber-800 p-2">
+          <button 
+            className="md:hidden text-amber-800 p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              )}
             </svg>
           </button>
         </div>
+        
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <nav className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 py-4 px-6 flex flex-col gap-4 text-center text-sm font-semibold tracking-wide text-gray-700 shadow-lg absolute w-full left-0">
+            <Link to="/rooms" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100">ROOMS</Link>
+            <Link to="/info" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100">HOTEL INFO</Link>
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-800 transition-colors py-2">CONTACT</Link>
+          </nav>
+        )}
       </header>
       <div className="pb-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center m-4 gap-4">
