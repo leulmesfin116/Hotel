@@ -17,52 +17,100 @@ function Home() {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 350; // Scroll by roughly one image width
-      scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   return (
     <>
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-amber-800">
+          <Link
+            to="/"
+            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-8 h-8 text-amber-800"
+            >
               <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
               <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
             </svg>
-            <h1 className="text-3xl font-serif text-amber-800 font-extrabold tracking-tight">Hotel Time</h1>
+            <h1 className="text-3xl font-serif text-amber-800 font-extrabold tracking-tight">
+              Hotel Time
+            </h1>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide text-gray-700">
-            <Link to="/rooms" className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1">ROOMS</Link>
-            <Link to="/info" className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1">HOTEL INFO</Link>
-            <Link to="/contact" className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1">CONTACT</Link>
+            <Link
+              to="/rooms"
+              className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1"
+            >
+              ROOMS
+            </Link>
+            <Link
+              to="/info"
+              className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1"
+            >
+              HOTEL INFO
+            </Link>
+            <Link
+              to="/contact"
+              className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1"
+            >
+              CONTACT
+            </Link>
           </nav>
-          <button 
+          <button
             className="md:hidden text-amber-800 p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
               {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
               )}
             </svg>
           </button>
         </div>
-        
+
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
           <nav className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 py-4 px-6 flex flex-col gap-4 text-center text-sm font-semibold tracking-wide text-gray-700 shadow-lg absolute w-full left-0">
-            <Link to="/rooms" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100">ROOMS</Link>
-            <Link to="/info" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100">HOTEL INFO</Link>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-800 transition-colors py-2">CONTACT</Link>
+            <Link
+              to="/rooms"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100"
+            >
+              ROOMS
+            </Link>
+            <Link
+              to="/info"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100"
+            >
+              HOTEL INFO
+            </Link>
+            <Link
+              to="/contact"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="hover:text-amber-800 transition-colors py-2"
+            >
+              CONTACT
+            </Link>
           </nav>
         )}
       </header>
@@ -73,8 +121,17 @@ function Home() {
               Hotel Time, <span className="text-amber-800">Dessie</span>
             </h2>
             <div className="flex items-center gap-2 mt-1">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-400">
-                <path fillRule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clipRule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-5 h-5 text-gray-400"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                  clipRule="evenodd"
+                />
               </svg>
               <a
                 href="https://www.google.com/maps/search/?api=1&query=4JVV%2BP5Q%2C%201%2C%20Dese"
@@ -402,7 +459,9 @@ function Home() {
         </div>
         {/* Location Section */}
         <div className="mx-4 my-12 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <h2 className="text-3xl font-serif text-amber-800 text-center my-6">Location</h2>
+          <h2 className="text-3xl font-serif text-amber-800 text-center my-6">
+            Location
+          </h2>
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2 h-64 md:h-auto min-h-[300px]">
               <iframe
@@ -417,14 +476,32 @@ function Home() {
               ></iframe>
             </div>
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-              <h3 className="text-2xl font-bold font-serif mb-4">Hotel Time, Dessie</h3>
+              <h3 className="text-2xl font-bold font-serif mb-4">
+                Hotel Time, Dessie
+              </h3>
               <p className="text-gray-600 mb-6 text-lg">
-                We are conveniently located at the heart of the city, easily accessible for all your travel needs.
+                We are conveniently located at the heart of the city, easily
+                accessible for all your travel needs.
               </p>
               <div className="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-amber-800 mt-1 shrink-0">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-amber-800 mt-1 shrink-0"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                  />
                 </svg>
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-800">Address</span>
