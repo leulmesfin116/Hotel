@@ -1,13 +1,23 @@
-import { useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import hotel1 from '../assets/hotel1.png';
-import hotel2 from '../assets/hotel2.png';
-import hotel3 from '../assets/hotel3.png';
-import hotel4 from '../assets/hotel4.png';
+import hotel1 from '../assets/kedamawi.1.png';
+import hotel2 from '../assets/kedamawi.2.png';
+import hotel3 from '../assets/kedamawi.3.png';
+import hotel4 from '../assets/kedamawi.4.png';
+import hotel5 from '../assets/kedamawi.5.png';
 
 function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const heroImages = [hotel1, hotel2, hotel3, hotel4];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -15,16 +25,6 @@ function Home() {
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  };
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 350; // Scroll by roughly one image width
-      scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
   };
 
   return (
@@ -41,10 +41,14 @@ function Home() {
               fill="currentColor"
               className="w-8 h-8 text-amber-800"
             >
-              <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z"
+                clipRule="evenodd"
+              />
             </svg>
             <h1 className="text-3xl font-serif text-amber-800 font-extrabold tracking-tight">
-              Hotel Time
+              Kedamawi Hotel
             </h1>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide text-gray-700">
@@ -127,7 +131,7 @@ function Home() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center m-4 gap-4">
           <div className="flex flex-col gap-1">
             <h2 className="font-bold text-3xl md:text-4xl font-serif text-gray-900">
-              Hotel Time, <span className="text-amber-800">Dessie</span>
+              Kedamawi Hotel, <span className="text-amber-800">Dessie</span>
             </h2>
             <div className="flex items-center gap-2 mt-1">
               <svg
@@ -143,12 +147,12 @@ function Home() {
                 />
               </svg>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=4JVV%2BP5Q%2C%201%2C%20Dese"
+                href="https://www.google.com/maps/search/?api=1&query=4JVR%2BMF%2C%20Dese"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 font-medium hover:text-amber-800 transition-colors"
               >
-                4JVV+P5Q, 1, Dese
+                4JVR+MF Dese,
               </a>
             </div>
           </div>
@@ -173,11 +177,21 @@ function Home() {
         </div>
         <hr className="my-6 border-gray-200" />
         {/* image carousel */}
-        <div className="relative group max-w-full my-10">
+        <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] overflow-hidden my-6 shadow-sm rounded-xl mx-4 max-w-[calc(100%-2rem)]">
+          {heroImages.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`Hotel View ${index + 1}`}
+              className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            />
+          ))}
           <button
-            onClick={() => scroll('left')}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-xl z-10 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
-            aria-label="Scroll left"
+            onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? heroImages.length - 1 : prev - 1))}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white text-gray-800 p-3 rounded-full shadow-xl z-20 transition-colors"
+            aria-label="Previous image"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -187,44 +201,13 @@ function Home() {
               stroke="currentColor"
               className="w-6 h-6"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-
-          <div
-            ref={scrollContainerRef}
-            className="flex overflow-x-auto gap-4 p-4 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-          >
-            <img
-              src={hotel1}
-              alt="Hotel View 1"
-              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
-            />
-            <img
-              src={hotel2}
-              alt="Hotel View 2"
-              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
-            />
-            <img
-              src={hotel3}
-              alt="Hotel View 3"
-              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
-            />
-            <img
-              src={hotel4}
-              alt="Hotel View 4"
-              className="h-64 sm:h-96 w-[85vw] sm:w-auto object-cover snap-center rounded-lg shadow-md shrink-0"
-            />
-          </div>
-
           <button
-            onClick={() => scroll('right')}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-xl z-10 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100"
-            aria-label="Scroll right"
+            onClick={() => setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white text-gray-800 p-3 rounded-full shadow-xl z-20 transition-colors"
+            aria-label="Next image"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -234,11 +217,7 @@ function Home() {
               stroke="currentColor"
               className="w-6 h-6"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </button>
         </div>
@@ -419,25 +398,25 @@ function Home() {
             {[
               {
                 id: 1,
-                img: hotel1,
+                img: hotel3,
                 title: 'Standard Room',
                 desc: 'A cozy retreat with essential amenities for a relaxing stay.',
               },
               {
                 id: 2,
-                img: hotel2,
+                img: hotel4,
                 title: 'Deluxe Room',
                 desc: 'Spacious and elegant, featuring premium comfort and a great view.',
               },
               {
                 id: 3,
-                img: hotel3,
+                img: hotel5,
                 title: 'Executive Suite',
                 desc: 'Luxury redefined with a separate living area and upgraded services.',
               },
               {
                 id: 4,
-                img: hotel4,
+                img: hotel1,
                 title: 'Presidential Suite',
                 desc: 'The ultimate experience with top-tier luxury, space, and privacy.',
               },
@@ -474,7 +453,7 @@ function Home() {
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2 h-64 md:h-auto min-h-[300px]">
               <iframe
-                src="https://maps.google.com/maps?q=4JVV%2BP5Q%2C%201%2C%20Dese&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=4JVR%2BMF%2C%20Dese&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '300px' }}
@@ -486,7 +465,7 @@ function Home() {
             </div>
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
               <h3 className="text-2xl font-bold font-serif mb-4">
-                Hotel Time, Dessie
+                Kedamawi Hotel, Dessie
               </h3>
               <p className="text-gray-600 mb-6 text-lg">
                 We are conveniently located at the heart of the city, easily
@@ -515,12 +494,12 @@ function Home() {
                 <div className="flex flex-col">
                   <span className="font-semibold text-gray-800">Address</span>
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=4JVV%2BP5Q%2C%201%2C%20Dese"
+                    href="https://www.google.com/maps/search/?api=1&query=4JVR%2BMF%2C%20Dese"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-amber-800 hover:text-amber-900 hover:underline transition-colors mt-1"
                   >
-                    4JVV+P5Q, 1, Dese
+                    4JVR+MF Dese
                   </a>
                 </div>
               </div>
