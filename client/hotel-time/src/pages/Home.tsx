@@ -184,12 +184,18 @@ function Home() {
               src={img}
               alt={`Hotel View ${index + 1}`}
               className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                index === currentImageIndex
+                  ? 'opacity-100 z-10'
+                  : 'opacity-0 z-0'
               }`}
             />
           ))}
           <button
-            onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? heroImages.length - 1 : prev - 1))}
+            onClick={() =>
+              setCurrentImageIndex((prev) =>
+                prev === 0 ? heroImages.length - 1 : prev - 1
+              )
+            }
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white text-gray-800 p-3 rounded-full shadow-xl z-20 transition-colors"
             aria-label="Previous image"
           >
@@ -201,11 +207,17 @@ function Home() {
               stroke="currentColor"
               className="w-6 h-6"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+              />
             </svg>
           </button>
           <button
-            onClick={() => setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)}
+            onClick={() =>
+              setCurrentImageIndex((prev) => (prev + 1) % heroImages.length)
+            }
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white text-gray-800 p-3 rounded-full shadow-xl z-20 transition-colors"
             aria-label="Next image"
           >
@@ -217,7 +229,11 @@ function Home() {
               stroke="currentColor"
               className="w-6 h-6"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
             </svg>
           </button>
         </div>
