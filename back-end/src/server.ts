@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { prisma, connectDB, disconnectDB } from './config/db';
+import authRoute from './Routers/authRoute';
 
 dotenv.config();
 connectDB();
