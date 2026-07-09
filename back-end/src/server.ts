@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { prisma, connectDB, disconnectDB } from './config/db';
 import authRoute from './Routers/authRoute';
+import rooms from './Routers/roomRouter';
 
 dotenv.config();
 connectDB();
@@ -10,6 +11,7 @@ const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/rooms', rooms);
 
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
