@@ -12,11 +12,4 @@ const room = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      data: roomIds,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
-};
-
-export { room };
+     
