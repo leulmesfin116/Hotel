@@ -424,6 +424,58 @@ function Home() {
             </div>
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="bg-amber-800 text-white mt-12 px-6 py-12">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+            {/* Brand */}
+            <div>
+              <h3 className="text-2xl font-serif font-extrabold tracking-tight mb-4">Kedamawi Hotel</h3>
+              <p className="text-amber-100 text-sm leading-relaxed">
+                Experience luxury and comfort in the heart of Dessie. Your premier destination for exceptional hospitality.
+              </p>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h4 className="text-lg font-bold mb-4 tracking-wide uppercase">Contact</h4>
+              <ul className="space-y-2 text-amber-100 text-sm">
+                <li>📍 4JVR+MF, Dessie, Ethiopia</li>
+                <li>📞 <a href="tel:+251914313458" className="hover:text-white transition-colors">091 431 3458</a></li>
+                <li>✉️ <a href="mailto:info@kedamawihotel.com" className="hover:text-white transition-colors">info@kedamawihotel.com</a></li>
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="text-lg font-bold mb-4 tracking-wide uppercase">Company</h4>
+              <ul className="space-y-2 text-amber-100 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Press & Media</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h4 className="text-lg font-bold mb-4 tracking-wide uppercase">Services</h4>
+              <ul className="space-y-2 text-amber-100 text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Room Booking</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Event Hosting</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Restaurant & Bar</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Airport Transfer</a></li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div className="max-w-7xl mx-auto border-t border-amber-700 mt-10 pt-6 text-center text-amber-200 text-sm">
+            © {new Date().getFullYear()} Kedamawi Hotel. All rights reserved.
+          </div>
+        </footer>
+
       </div>
     </>
   );
