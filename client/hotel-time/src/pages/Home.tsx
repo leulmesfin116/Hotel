@@ -59,6 +59,12 @@ function Home() {
               ROOMS
             </Link>
             <Link
+              to="/booking"
+              className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1"
+            >
+              BOOKING
+            </Link>
+            <Link
               to="/info"
               className="hover:text-amber-800 transition-colors border-b-2 border-transparent hover:border-amber-800 pb-1"
             >
@@ -109,6 +115,13 @@ function Home() {
               className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100"
             >
               ROOMS
+            </Link>
+            <Link
+              to="/booking"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="hover:text-amber-800 transition-colors py-2 border-b border-gray-100"
+            >
+              BOOKING
             </Link>
             <Link
               to="/info"

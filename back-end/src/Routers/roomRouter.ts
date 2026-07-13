@@ -5,4 +5,4 @@ import {room} from "../controller/roomController"
 const router = express.Router();
 router.get('/room', room);
 
-export {room,router}
+export default router;
