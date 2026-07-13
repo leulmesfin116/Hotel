@@ -18,5 +18,10 @@ const room = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 };
+const findRoom = async (req: Request, res: Response) => {
+  try {
+    const requestedAdults = parseInt(req.query.adults as string);
+  } catch (error) {}
+};
 
 export { room };

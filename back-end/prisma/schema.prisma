@@ -47,6 +47,8 @@ model room {
   floor        Int?
   created_at   DateTime? @default(now()) @db.Timestamp(6)
   is_avaliable Boolean   @default(true)
+  single_bed   BigInt    @default(0)
+  double_bed   BigInt    @default(0)
   booking      booking[]
 }
 
