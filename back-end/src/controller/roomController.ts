@@ -1,50 +1,63 @@
 import { prisma } from '../config/db';
 import { Request, Response } from 'express';
 
-const room = async (req: Request, res: Response) => {
+export const findRoom = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
-    const availableRooms = await prisma.room.findMany({
-      where: { is_avaliable: true },
-      select: { id: true },
-    });
+    const { adults, children } = req.query;
 
-    const roomIds = availableRooms.map((room) => room.id);
-
-    res.status(200).json({
-      success: true,
-      data: roomIds,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
-};
-const findRoom = async (req: Request, res: Response) => {
-  try {
-    const requestedAdults = parseInt(req.query.adults as string);
-    
-    if (isNaN(requestedAdults)) {
-      return res.status(400).json({ success: false, message: 'Invalid number of adults' });
+    if (typeof adults !== 'string') {
+      return res.status(400).json({
+        success: false,
+        message:
+          'Query parameter "adults" is required and must be a single string',
+      });
     }
 
+    const childrenString = typeof children === 'string' ? children : '0';
+
+    const requestedAdults = parseInt(adults, 10);
+    const requestedChildren = parseInt(childrenString, 10);
+
+    if (isNaN(requestedAdults) || requestedAdults < 1) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid number of adults (must be at least 1)',
+      });
+    }
+
+    if (isNaN(requestedChildren) || requestedChildren < 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid number of children',
+      });
+    }
+
+    const totalGuests = requestedAdults + requestedChildren;
+
     const availableRooms = await prisma.room.findMany({
-      where: { is_avaliable: true },
+      where: {
+        is_avaliable: true,
+      },
     });
 
     const matchingRooms = availableRooms.filter((room) => {
-      const singleBeds = Number(room.single_bed);
-      const doubleBeds = Number(room.double_bed);
-      const capacity = singleBeds + (doubleBeds * 2);
-      return capacity >= requestedAdults;
+      const maxCapacity = room.single_bed + room.double_bed * 2;
+
+      return maxCapacity >= totalGuests;
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: matchingRooms,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error('Error finding rooms:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    });
   }
 };
-
-export { room, findRoom };
