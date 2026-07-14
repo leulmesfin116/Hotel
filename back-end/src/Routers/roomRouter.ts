@@ -1,8 +1,8 @@
 import express from 'express';
-import {room} from "../controller/roomController"
-
+import { room, findRoom } from '../controller/roomController';
 
 const router = express.Router();
-router.get('/room', room);
+router.get('/availiable-ids', room);
+router.get('/search', findRoom);
 
 export default router;
