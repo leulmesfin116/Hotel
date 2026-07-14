@@ -1,5 +1,6 @@
 import { prisma } from '../config/db';
 import { Request, Response } from 'express';
+import { redisClient } from '../config/redisClient';
 
 export const findRoom = async (
   req: Request,
@@ -44,7 +45,7 @@ export const findRoom = async (
     });
 
     const matchingRooms = availableRooms.filter((room) => {
-      const maxCapacity = room.single_bed + room.double_bed * 2;
+      const maxCapacity = Number(room.single_bed) + Number(room.double_bed) * 2;
 
       return maxCapacity >= totalGuests;
     });

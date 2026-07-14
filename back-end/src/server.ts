@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import { prisma, connectDB, disconnectDB } from './config/db';
 import authRoute from './Routers/authRoute';
 import rooms from './Routers/roomRouter';
+import { connectRedis } from './config/redisClient';
 
 dotenv.config();
 connectDB();
+connectRedis();
 
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;

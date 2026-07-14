@@ -27,6 +27,7 @@ model booking {
 
   @@index([created_at(sort: Desc)], map: "idx_booking_pending_status", where: raw("(status = 'pending'::booking_status_type)"))
   @@index([room_id, check_in_date, check_out_date], map: "idx_booking_room_dates", where: raw("(status <> 'cancelled'::booking_status_type)"))
+  
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
@@ -50,6 +51,7 @@ model room {
   single_bed   BigInt    @default(0)
   double_bed   BigInt    @default(0)
   booking      booking[]
+
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
