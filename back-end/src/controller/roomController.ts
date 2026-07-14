@@ -38,6 +38,31 @@ export const findRoom = async (
 
     const totalGuests = requestedAdults + requestedChildren;
 
+    // --- REDIS CACHE LAYER START ---
+
+    // Create a unique key for this exact search configuration
+    const cacheKey = `rooms:adults:${requestedAdults}:children:${requestedChildren}`;
+
+    try {
+      // 1. Try to fetch cached data from Redis
+      const cachedRooms = await redisClient.get(cacheKey);
+
+      if (cachedRooms) {
+        console.log('⚡ Cache Hit! Serving rooms from Redis.');
+        return res.status(200).json({
+          success: true,
+          data: JSON.parse(cachedRooms), // Convert string back to JSON array
+        });
+      }
+    } catch (redisError) {
+      // Log error but don't crash the request (fallback to database if Redis is down)
+      console.error('Redis read error:', redisError);
+    }
+
+    // --- REDIS CACHE LAYER END ---
+
+    console.log('🐌 Cache Miss! Fetching from PostgreSQL.');
+
     const availableRooms = await prisma.room.findMany({
       where: {
         is_avaliable: true,
@@ -46,9 +71,20 @@ export const findRoom = async (
 
     const matchingRooms = availableRooms.filter((room) => {
       const maxCapacity = Number(room.single_bed) + Number(room.double_bed) * 2;
-
       return maxCapacity >= totalGuests;
     });
+
+    // --- SAVE TO REDIS START ---
+    try {
+      // Save the result to Redis
+      // EX: 300 tells Redis to delete this cache automatically after 300 seconds (5 minutes)
+      await redisClient.set(cacheKey, JSON.stringify(matchingRooms), {
+        EX: 300,
+      });
+    } catch (redisError) {
+      console.error('Redis write error:', redisError);
+    }
+    // --- SAVE TO REDIS END ---
 
     return res.status(200).json({
       success: true,
