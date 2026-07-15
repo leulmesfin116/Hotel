@@ -25,4 +25,25 @@ export const findRoom = async (
   } catch (redisError) {
     console.error('Redis read error, falling back to database:', redisError);
   }
+  console.log(`Cache Miss! Querying PostgreSQL database...`);
+  const avaliableRoom = await prisma.room.findMany({
+    where: { is_avaliable: true },
+  });
+  const matchingRooms = avaliableRoom.filter((room) => {
+    const maxCapacity = Number(room.single_bed) + Number(room.double_bed) * 2;
+    return maxCapacity >= total;
+  });
+  try {
+    await redisClient.set(cashekey, JSON.stringify(matchingRooms));
+    res.status(200).json({
+      success: true,
+      source: 'database',
+      data: matchingRooms,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, message: 'Internal Server Error' });
+  }
 };
