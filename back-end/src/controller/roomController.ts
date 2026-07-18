@@ -40,10 +40,4 @@ export const findRoom = async (
       source: 'database',
       data: matchingRooms,
     });
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, message: 'Internal Server Error' });
-  }
-};
+  } 
