@@ -35,7 +35,7 @@ export const findRoom = async (
   });
   try {
     await redisClient.set(cashekey, JSON.stringify(matchingRooms));
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       source: 'database',
       data: matchingRooms,
