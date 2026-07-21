@@ -7,7 +7,7 @@ export const bookRoom = async (
   res: Response
 ): Promise<Response> => {
   const { roomId } = req.body;
-  const updateRoom = await prisma.room.update({
+  const updatedRoom = await prisma.room.update({
     where: { id: roomId },
     data: { is_avaliable: false },
   });
@@ -20,4 +20,11 @@ export const bookRoom = async (
   } catch (redisError) {
     console.log('failed to invalidate the redis', redisError);
   }
+
+  // booking
+  return res.status(200).json({
+    success: true,
+    message: 'room booked successfully',
+    data: updatedRoom,
+  });
 };
