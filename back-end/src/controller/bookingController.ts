@@ -11,15 +11,13 @@ export const bookRoom = async (
     where: { id: roomId },
     data: { is_avaliable: false },
   });
-  try{
-    const keys =redisClient.keys('rooms:*')
-    if(keys.length>0){
-     await redisClient.del(keys)
-     console.log("")
+  try {
+    const keys = await redisClient.keys('rooms:*');
+    if (keys.length > 0) {
+      await redisClient.del(keys);
+      console.log('cahce cleared and refreshed');
     }
-
-  }
-  catch(){
-
+  } catch (redisError) {
+    console.log('failed to invalidate the redis', redisError);
   }
 };
