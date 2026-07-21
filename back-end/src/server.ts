@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { prisma, connectDB, disconnectDB } from './config/db';
 import authRoute from './Routers/authRoute';
-import rooms from './Routers/roomRouter';
+import rooms from './Routers/searchRoute';
 import { connectRedis } from './config/redisClient';
 
 dotenv.config();

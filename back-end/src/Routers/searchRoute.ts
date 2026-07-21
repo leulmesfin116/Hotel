@@ -1,5 +1,5 @@
 import express from 'express';
-import { room, findRoom } from '../controller/roomController';
+import { room, findRoom } from '../controller/searchController';
 
 const router = express.Router();
 router.get('/availiable-ids', room);
