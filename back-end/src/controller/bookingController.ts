@@ -30,6 +30,7 @@ export const bookRoom = async (
     if (!room || !room.is_avaliable) {
       return res.status(400).json({ success: false, message: 'Room unavailable.' });
     }
+
   const updatedRoom = await prisma.room.update({
     where: { id: roomId },
     data: { is_avaliable: false },
@@ -50,4 +51,14 @@ export const bookRoom = async (
     message: 'room booked successfully',
     data: updatedRoom,
   });
-};
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred during booking.',
+    });
+  } finally {
+    if (lock) {
+      await lock.release();
+    }
+  }
+}
