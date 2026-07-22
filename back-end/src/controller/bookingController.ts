@@ -1,10 +1,10 @@
 import { prisma } from '../config/db';
 import { Request, Response } from 'express';
 import { redisClient } from '../config/redisClient';
-import redlock from 'redlock';
+import Redlock from 'redlock';
 
-const lock = new redlock([redisClient], {
-  retryCount: 0
+const redlock = new Redlock([redisClient], {
+  retryCount: 0,
 });
 
 export const bookRoom = async (
@@ -12,6 +12,18 @@ export const bookRoom = async (
   res: Response
 ): Promise<Response> => {
   const { roomId } = req.body;
+  const lockkey = `lock:room:${roomId}`;
+  const ttl = 8000;
+  // handding out a lock
+  let lock;
+  try {
+    lock = await redlock.acquire([lockkey], ttl);
+  } catch (err) {
+    return res.status(409).json({
+      success: false,
+      message: 'the room is currently being used by a user,please try again',
+    });
+  }
   const updatedRoom = await prisma.room.update({
     where: { id: roomId },
     data: { is_avaliable: false },
