@@ -24,6 +24,12 @@ export const bookRoom = async (
       message: 'the room is currently being used by a user,please try again',
     });
   }
+  try {
+    const room = await prisma.room.findUnique({ where: { id: roomId } });
+
+    if (!room || !room.is_avaliable) {
+      return res.status(400).json({ success: false, message: 'Room unavailable.' });
+    }
   const updatedRoom = await prisma.room.update({
     where: { id: roomId },
     data: { is_avaliable: false },
