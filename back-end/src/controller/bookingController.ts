@@ -1,6 +1,11 @@
 import { prisma } from '../config/db';
 import { Request, Response } from 'express';
 import { redisClient } from '../config/redisClient';
+import redlock from 'redlock';
+
+const lock = new redlock([redisClient], {
+  retryCount: 0
+});
 
 export const bookRoom = async (
   req: Request,
