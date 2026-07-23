@@ -28,29 +28,31 @@ export const bookRoom = async (
     const room = await prisma.room.findUnique({ where: { id: roomId } });
 
     if (!room || !room.is_avaliable) {
-      return res.status(400).json({ success: false, message: 'Room unavailable.' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Room unavailable.' });
     }
 
-  const updatedRoom = await prisma.room.update({
-    where: { id: roomId },
-    data: { is_avaliable: false },
-  });
-  try {
-    const keys = await redisClient.keys('rooms:*');
-    if (keys.length > 0) {
-      await redisClient.del(keys);
-      console.log('cahce cleared and refreshed');
+    const updatedRoom = await prisma.room.update({
+      where: { id: roomId },
+      data: { is_avaliable: false },
+    });
+    try {
+      const keys = await redisClient.keys('rooms:*');
+      if (keys.length > 0) {
+        await redisClient.del(keys);
+        console.log('cahce cleared and refreshed');
+      }
+    } catch (redisError) {
+      console.log('failed to invalidate the redis', redisError);
     }
-  } catch (redisError) {
-    console.log('failed to invalidate the redis', redisError);
-  }
 
-  // booking
-  return res.status(200).json({
-    success: true,
-    message: 'room booked successfully',
-    data: updatedRoom,
-  });
+    // booking
+    return res.status(200).json({
+      success: true,
+      message: 'room booked successfully',
+      data: updatedRoom,
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -61,4 +63,5 @@ export const bookRoom = async (
       await lock.release();
     }
   }
-}
+};
+export const checkOut = async () => {};
