@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { prisma, connectDB, disconnectDB } from './config/db';
 import authRoute from './Routers/authRoute';
-import rooms from './Routers/searchRoute';
+import search from './Routers/searchRoute';
+import room from './Routers/bookingRoute';
 import { connectRedis } from './config/redisClient';
 
 dotenv.config();
@@ -13,7 +14,8 @@ const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/rooms', rooms);
+app.use('/search', search);
+app.use('/room', room);
 
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
