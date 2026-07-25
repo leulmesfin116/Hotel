@@ -64,4 +64,24 @@ export const bookRoom = async (
     }
   }
 };
-export const checkOut = async () => {};
+export const checkOut = async (req:Request,res:Response)  {
+  const {roomId}=req.body;
+  try {
+    // 1. Mark available in DB
+    const room = await prisma.room.update({
+      where: { id: roomId },
+      data: { is_avaliable: true },
+    });
+
+    // 2. Clear Redis search cache
+    const keys = await redisClient.keys('rooms:*');
+    if (keys.length > 0) await redisClient.del(keys);
+
+    return res.status(200).json({
+      success: true,
+      message: `Room ${room.room_number} is now available again!`,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
