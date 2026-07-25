@@ -6,4 +6,4 @@ const router = express.Router();
 router.get('/booking', bookRoom);
 router.post('/check-out', checkOut);
 
-app.use;
+export default router;
