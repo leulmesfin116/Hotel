@@ -19,7 +19,7 @@ const register = async (req: Request, res: Response) => {
   const user = await prisma.user.create({
     data: { full_name, email, password: hashPassword, phone_number } as any, // bypassing typechecking for password since it's missing in schema, or they might add it
   });
-  const token = generateToken(user.id);
+  const token = generateToken(user.id, res);
 
   res.status(201).json({
     status: 'success',
@@ -50,7 +50,7 @@ const login = async (req: Request, res: Response) => {
       message: 'invalid password or email',
     });
   }
-  const token = generateToken(user.id);
+  const token = generateToken(user.id, res);
   return res.status(201).json({
     message: 'sucess',
     data: {
