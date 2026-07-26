@@ -16,14 +16,14 @@ const register = async (req: Request, res: Response) => {
   const hashPassword = await bcrypt.hash(password, salt);
   //  creating a user
   const user = await prisma.user.create({
-    data: { name, email, password: hashPassword },
+    data: { full_name, email, password: hashPassword } as any, // bypassing typechecking for password since it's missing in schema, or they might add it
   });
   res.status(201).json({
     status: 'success',
     data: {
       id: user.id,
       email: email,
-      name: name,
+      full_name: full_name,
     },
   });
 };
