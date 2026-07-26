@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.use('/search', search);
 app.use('/room', room);
+app.use('/auth', authRoute);
 
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
