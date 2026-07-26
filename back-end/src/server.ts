@@ -11,9 +11,12 @@ connectDB();
 connectRedis();
 
 const app = express();
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.use('/search', search);
 app.use('/room', room);
 
