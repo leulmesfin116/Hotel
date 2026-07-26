@@ -60,5 +60,14 @@ const login = async (req: Request, res: Response) => {
     token,
   });
 };
+const logout = async (req: Request, res: Response) => {
+  res.cookie('jwt', '', {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res
+    .status(200)
+    .json({ status: 'success', message: 'you log out successfuly' });
+};
 
 export { register, login };
