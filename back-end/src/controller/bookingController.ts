@@ -64,8 +64,8 @@ export const bookRoom = async (
     }
   }
 };
-export const checkOut = async (req:Request,res:Response)  {
-  const {roomId}=req.body;
+export const checkOut = async (req: Request, res: Response) => {
+  const { roomId } = req.body;
   try {
     // 1. Mark available in DB
     const room = await prisma.room.update({
