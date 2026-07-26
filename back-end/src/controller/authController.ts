@@ -6,7 +6,7 @@ const register = async (req: Request, res: Response) => {
   const { full_name, email, password, phone_number } = req.body;
 
   // checking if the user already exits
-  const userExists = await prisma.user.findFirst({
+  const userExists = await prisma.user.findUnique({
     where: { email: email },
   });
   if (userExists) {
@@ -19,6 +19,8 @@ const register = async (req: Request, res: Response) => {
   const user = await prisma.user.create({
     data: { full_name, email, password: hashPassword, phone_number } as any, // bypassing typechecking for password since it's missing in schema, or they might add it
   });
+  const token = generateToken(user.id);
+
   res.status(201).json({
     status: 'success',
     data: {
@@ -28,6 +30,7 @@ const register = async (req: Request, res: Response) => {
       phone_number: phone_number,
       password: hashPassword,
     },
+    token,
   });
 };
 const login = async (req: Request, res: Response) => {
@@ -48,6 +51,14 @@ const login = async (req: Request, res: Response) => {
     });
   }
   const token = generateToken(user.id);
+  return res.status(201).json({
+    message: 'sucess',
+    data: {
+      id: user.id,
+      email: email,
+    },
+    token,
+  });
 };
 
 export { register, login };
