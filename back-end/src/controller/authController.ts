@@ -1,7 +1,8 @@
 import { prisma } from '../config/db';
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 const register = async (req: Request, res: Response) => {
-  const { full_name, phone_number, email } = req.body;
+  const { full_name, email, password } = req.body;
 
   // checking if the user already exits
   const userExists = await prisma.user.findFirst({
@@ -10,6 +11,11 @@ const register = async (req: Request, res: Response) => {
   if (userExists) {
     return res.status(400).json({ message: 'user already exists' });
   }
+  // hashing password
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
+  //  creating a user
+  const user = await prisma.user.upsert({});
 };
 
 export { register };
