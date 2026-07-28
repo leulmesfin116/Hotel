@@ -2,6 +2,7 @@ import { prisma } from '../config/db';
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/genarateToken';
+
 const register = async (req: Request, res: Response) => {
   const { full_name, email, password, phone_number } = req.body;
 
