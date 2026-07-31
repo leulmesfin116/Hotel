@@ -13,29 +13,31 @@ export const authMiddleware = async (
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies.jwt) {
+  } else if (req.cookies && req.cookies.jwt) {
     token = req.cookies.jwt;
-  } else {
-    return res.status(401).json({
-      message: 'User is not authorized, no token',
+  }
+
+  if (!token) {
+    res.status(401).json({
+      message: 'user is not authorized',
     });
+    return;
   }
 
   try {
-    const decode = jwt.verify(token, process.env.JWT_SECRET as string) as jwt.JwtPayload;
+    const decode = jwt.verify(token, process.env.JWT_SECRET as string) as any;
     const user = await prisma.user.findUnique({
       where: { id: decode.id }
     });
-    
-    if(!user){
-      return res.status(401).json({ message: 'Not authorized, user not found' });
+
+    if (!user) {
+      res.status(401).json({ message: "user is not authorized" });
+      return;
     }
     
-    // Add user to request (requires extending Request type, typically done in a custom d.ts file)
-    // @ts-ignore
-    req.user = user;
+    (req as any).user = user;
     next();
   } catch (error) {
-    res.status(401).json({ message: 'Not authorized, token failed' });
+    res.status(401).json({ message: "user is not authorized" });
   }
 };
